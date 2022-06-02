@@ -39,6 +39,10 @@ public class Note implements Serializable {
     @LastModifiedDate
     private Date updatedAt;
 
+    public Note() {
+
+    }
+
     public Note(Long id, String title, String content) {
         this.id = id;
         this.title = title;

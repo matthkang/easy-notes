@@ -1,0 +1,18 @@
+version: '2'
+services:
+  docker-mysql:
+    image: mysql:5.7.18
+    environment:
+      - MYSQL_USER=root
+      - MYSQL_ROOT_PASSWORD=password
+      - MYSQL_DATABASE=notes_app
+    ports:
+      - 3306:3306
+    #command: mysqld --lower_case_table_names=1 --skip-ssl --character_set_server=utf8 --explicit_defaults_for_timestamp
+
+  app:
+    image: app:latest
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://docker-mysql:3306/database?autoReconnect=true&useSSL=false
+    depends_on:
+      - docker-mysql

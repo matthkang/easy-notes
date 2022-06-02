@@ -12,7 +12,9 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.beans.Transient;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -57,7 +59,6 @@ public class NoteControllerTest {
 
     @Test
     public void createNoteWithEmptyTitle() throws Exception {
-        // An entity with an existing ID cannot be created, so this API call must fail
         mvc.perform(post("/api/notes")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\"title\": \"\", \"content\": \"sample content\"}"))
@@ -66,10 +67,15 @@ public class NoteControllerTest {
 
     @Test
     public void createNoteWithEmptyContent() throws Exception {
-        // An entity with an existing ID cannot be created, so this API call must fail
         mvc.perform(post("/api/notes")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\"title\": \"title\", \"content\": \"\"}"))
                 .andExpect(status().isBadRequest());
     }
+
+    /*@Test
+    public void getNonexistentNote() throws Exception {
+        mvc.perform(get("/api/notes/{id}", -1L))
+                .andExpect(status().isNotFound());
+    }*/
 }
